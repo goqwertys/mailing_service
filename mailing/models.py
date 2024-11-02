@@ -42,7 +42,7 @@ class Mailing(models.Model):
         default='CRT',
         verbose_name='Mailing status'
     )
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, )
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name='mailings')
     recipient = models.ManyToManyField(Recipient)
 
     def __str__(self):
@@ -51,3 +51,22 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'mailing'
         verbose_name_plural = 'mailings'
+
+
+class Attempt(models.Model):
+    dt = models.DateTimeField()
+    STATUS_CHOICES = [
+        ('CM','Completed'),
+        ('CR','Created'),
+        ('LN','Launched'),
+    ]
+
+    status = models.CharField(
+        max_length=3,
+        choices=STATUS_CHOICES,
+        default='CRT',
+        verbose_name='Mailing attempt'
+    )
+
+    response = models.TextField()
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='attempts')
