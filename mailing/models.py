@@ -1,6 +1,7 @@
 from django.core.validators import EmailValidator
 from django.db import models
 
+
 class Recipient(models.Model):
     """ Mailing model"""
     email = models.EmailField(
@@ -37,10 +38,10 @@ class Mailing(models.Model):
     first_send = models.DateTimeField()
     end_send = models.DateTimeField()
 
-    STATUS_CHOICES =[
+    STATUS_CHOICES = [
         ('CPL', 'Completed'),
-        ('CRT','Created'),
-        ('LCH','Launched'),
+        ('CRT', 'Created'),
+        ('LCH', 'Launched'),
     ]
     status = models.CharField(
         max_length=3,
@@ -62,9 +63,9 @@ class Mailing(models.Model):
 class Attempt(models.Model):
     dt = models.DateTimeField()
     STATUS_CHOICES = [
-        ('CM','Completed'),
-        ('CR','Created'),
-        ('LN','Launched'),
+        ('CM', 'Completed'),
+        ('CR', 'Created'),
+        ('LN', 'Launched'),
     ]
 
     status = models.CharField(

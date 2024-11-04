@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pyexpat.errors import messages
@@ -24,7 +23,7 @@ class RecipientDetailView(DetailView):
 class RecipientCreateView(CreateView):
     model = Recipient
     form_class = RecipientForm
-    template_name ='mailing/recipient_form.html'
+    template_name = 'mailing/recipient_form.html'
     success_url = reverse_lazy('mailing:recipients')
 
 
