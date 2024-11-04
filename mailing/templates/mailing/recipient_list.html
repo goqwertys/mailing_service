@@ -1,0 +1,51 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Product list{% endblock %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="col-12 d-flex justify-content-between align-items-center mt-3 mb-3">
+            <h3>Recipients</h3>
+            <a class="btn btn-primary" href='{% url "mailing:recipient_create" %}' role="button">
+                Add New
+            </a>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!--
+              {% for product in products %}
+                  {% include 'catalog/includes/product_card.html' %}
+              {% endfor %}
+            -->
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Comment</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for recipient in recipients %}
+                    <tr>
+                        <th scope="row">{{ recipient.name }}</th>
+                        <td>{{ recipient.email }}</td>
+                        <td>{{ recipient.comment }}</td>
+                        <td>
+                            <a class="btn btn-secondary" href="{% url 'mailing:recipient_edit' recipient.pk %}" role="button">
+                                Edit
+                            </a>
+                            <a class="btn btn-danger" href="{% url 'mailing:recipient_delete' recipient.pk %}" role="button">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include 'mailing/includes/pagination.html' %}
+    </div>
+</div>
+{% endblock %}

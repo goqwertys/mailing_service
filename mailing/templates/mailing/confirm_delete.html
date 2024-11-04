@@ -1,0 +1,12 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Product list{% endblock %}
+{% block content %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete "{{ recipient.name }}"?</p>
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'mailing:recipients' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,8 +1,14 @@
+from django.core.validators import EmailValidator
 from django.db import models
 
 class Recipient(models.Model):
     """ Mailing model"""
-    email = models.EmailField(unique=True)
+    email = models.EmailField(
+        unique=True,
+        max_length=254,
+        validators=[EmailValidator(message='Enter a valid email address')],
+        verbose_name='Email Address'
+    )
     name = models.CharField(max_length=255)
     comment = models.TextField()
 
