@@ -77,3 +77,10 @@ class Attempt(models.Model):
 
     response = models.TextField()
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='attempts')
+
+    def __str__(self):
+        return f'Attempt {self.id} for Mailing {self.mailing.id}'
+
+    class Meta:
+        verbose_name = 'attempt'
+        verbose_name_plural = 'attempts'

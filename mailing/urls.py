@@ -1,10 +1,8 @@
-from tkinter.font import names
-
 from django.urls import path
 from mailing.apps import MailingConfig
 from mailing.views import RecipientListView, RecipientDetailView, RecipientCreateView, RecipientUpdateView, \
     RecipientDeleteView, MessageListView, MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView, \
-    MailingListView, MailingCreateView, MailingDetailView, MailingUpdateView, MailingDeleteView
+    MailingListView, MailingCreateView, MailingDetailView, MailingUpdateView, MailingDeleteView, start_mailing
 
 app_name = MailingConfig.name
 
@@ -29,4 +27,7 @@ urlpatterns = [
     path('mailings/create/', MailingCreateView.as_view(), name='mailing_create'),
     path('mailings/<int:pk>/update/', MailingUpdateView.as_view(), name='mailing_update'),
     path('mailings/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing_delete'),
+
+    # Mailing
+    path('mailing/<int:mailing_id>/start/', start_mailing, name='start_mailing')
 ]

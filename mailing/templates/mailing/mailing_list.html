@@ -12,8 +12,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>First Send</th>
-                <th>End Send</th>
+                <th>Start of sending</th>
+                <th>End of sending</th>
                 <th>Status</th>
                 <th>Message</th>
                 <th>Recipients</th>
@@ -24,8 +24,8 @@
             {% for mailing in mailings %}
             <tr>
                 <td>{{ mailing.id }}</td>
-                <td>{{ mailing.first_send }}</td>
-                <td>{{ mailing.end_send }}</td>
+                <td>{{ mailing.start_of_sending }}</td>
+                <td>{{ mailing.end_of_sending }}</td>
                 <td>{{ mailing.get_status_display }}</td>
                 <td>{{ mailing.message }}</td>
                 <td>

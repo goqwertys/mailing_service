@@ -1,9 +1,11 @@
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pyexpat.errors import messages
 
 from mailing.forms import RecipientForm, MessageForm, MailingForm
 from mailing.models import Recipient, Message, Mailing
+from mailing.utils import send_mailing
 
 
 # Recipient CRUD
@@ -114,3 +116,9 @@ class MailingDeleteView(DeleteView):
     model = Mailing
     template_name = 'mailing/mailing_confirm_delete.html'
     success_url = reverse_lazy('mailing:mailings')
+
+
+def start_mailing(request, mailing_id):
+    mailing = get_object_or_404(Mailing, id=mailing_id)
+    send_mailing(mailing.id)
+    return redirect('mailing:mailings')
