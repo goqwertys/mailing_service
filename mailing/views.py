@@ -2,8 +2,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pyexpat.errors import messages
 
-from mailing.forms import RecipientForm, MessageForm
-from mailing.models import Recipient, Message
+from mailing.forms import RecipientForm, MessageForm, MailingForm
+from mailing.models import Recipient, Message, Mailing
 
 
 # Recipient CRUD
@@ -80,3 +80,37 @@ class MessageDeleteView(DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Recipient has been deleted successfully')
         return super().delete(request, *args, **kwargs)
+
+
+# Mailing CRUD
+class MailingListView(ListView):
+    model = Mailing
+    template_name = 'mailing/mailing_list.html'
+    context_object_name = 'mailings'
+    paginate_by = 10
+
+
+class MailingDetailView(DetailView):
+    model = Mailing
+    template_name = 'mailing/mailing_detail.html'
+    context_object_name = 'mailing'
+
+
+class MailingCreateView(CreateView):
+    model = Mailing
+    form_class = MailingForm
+    template_name = 'mailing/mailing_form.html'
+    success_url = reverse_lazy('mailing:mailings')
+
+
+class MailingUpdateView(CreateView):
+    model = Mailing
+    form_class = MailingForm
+    template_name = 'mailing/mailing_form.html'
+    success_url = reverse_lazy('mailing:mailings')
+
+
+class MailingDeleteView(DeleteView):
+    model = Mailing
+    template_name = 'mailing/mailing_confirm_delete.html'
+    success_url = reverse_lazy('mailing:mailings')
