@@ -17,9 +17,7 @@
                 <th>Status</th>
                 <th>Message</th>
                 <th>Recipients</th>
-                <!--
                 <th>Actions</th>
-                -->
             </tr>
         </thead>
         <tbody>
@@ -36,6 +34,11 @@
                         <li>{{ recipient }}</li>
                         {% endfor %}
                     </ul>
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" href="{% url 'mailing:mailing_detail' mailing.pk %}">
+                        More
+                    </a>
                 </td>
             </tr>
             {% endfor %}

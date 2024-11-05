@@ -14,7 +14,9 @@
         <li>{{ recipient }}</li>
         {% endfor %}
     </ul>
+    <a class="btn btn-secondary" href="{% url 'mailing:mailings' %}">Back</a>
     <a class="btn btn-secondary" href="{% url 'mailing:mailing_update' mailing.pk %}">Edit</a>
+    <a class="btn btn-primary" href="#">Send</a>
     <a class="btn btn-danger" href="{% url 'mailing:mailing_delete' mailing.pk %}">Delete</a>
 </div>
 {% endblock %}
