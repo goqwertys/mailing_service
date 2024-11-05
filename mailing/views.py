@@ -36,7 +36,7 @@ class RecipientUpdateView(UpdateView):
 
 class RecipientDeleteView(DeleteView):
     model = Recipient
-    template_name = 'mailing/confirm_delete.html'
+    template_name = 'mailing/recipient_confirm_delete.html'
     success_url = reverse_lazy('mailing:recipients')
 
     def delete(self, request, *args, **kwargs):

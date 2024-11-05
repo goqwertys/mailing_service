@@ -35,8 +35,8 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
-    start_of_sending = models.DateTimeField(null=True, blank=True)
-    end_of_sending = models.DateTimeField(null=True, blank=True)
+    start_of_sending = models.DateTimeField(blank=True, null=True)
+    end_of_sending = models.DateTimeField(blank=True, null=True)
 
     STATUS_CHOICES = [
         ('CPL', 'Completed'),
