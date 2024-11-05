@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from pyexpat.errors import messages
 
 from mailing.forms import RecipientForm, MessageForm, MailingForm
-from mailing.models import Recipient, Message, Mailing
+from mailing.models import Recipient, Message, Mailing, Attempt
 from mailing.utils import send_mailing
 
 
@@ -118,6 +118,21 @@ class MailingDeleteView(DeleteView):
     success_url = reverse_lazy('mailing:mailings')
 
 
+# Attempt CRUD
+class AttemptListView(ListView):
+    model = Attempt
+    template_name = 'mailing/attempt_list_view.html'
+    context_object_name = 'attempts'
+    paginate_by = 10
+
+
+class AttemptDetailView(DetailView):
+    model = Attempt
+    template_name = 'mailing/attempt_detail.html'
+    context_object_name = 'attempt'
+
+
+# Start_mailing
 def start_mailing(request, mailing_id):
     mailing = get_object_or_404(Mailing, id=mailing_id)
     send_mailing(mailing.id)
