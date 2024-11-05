@@ -1,12 +1,12 @@
 from django import forms
 
-from mailing.models import Recipient, Message
+from mailing.models import Recipient, Message, Mailing
 
 
 class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field, in self.fields.items():
+        for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
 
@@ -50,5 +50,25 @@ class MessageForm(StyleFormMixin, forms.ModelForm):
         self.fields['body'].widget.attrs.update(
             {
                 'placeholder': 'Your message here: '
+            }
+        )
+
+
+class MailingForm(forms.ModelForm):
+    class Meta:
+        model = Mailing
+        fields = ['message', 'recipient']
+
+    recipient = forms.ModelMultipleChoiceField(
+        queryset=Recipient.objects.all(),
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['message'].widget.attrs.update(
+            {
+                'placeholder': 'Select message',
+                'class': 'form-control'
             }
         )

@@ -1,0 +1,45 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Mailings{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-12 d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h3>Mailings</h3>
+        <a class="btn btn-primary" href='{% url "mailing:mailing_create" %}' role="button">
+            Add New Mailing
+        </a>
+    </div>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Send</th>
+                <th>End Send</th>
+                <th>Status</th>
+                <th>Message</th>
+                <th>Recipients</th>
+                <!--
+                <th>Actions</th>
+                -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for mailing in mailings %}
+            <tr>
+                <td>{{ mailing.id }}</td>
+                <td>{{ mailing.first_send }}</td>
+                <td>{{ mailing.end_send }}</td>
+                <td>{{ mailing.get_status_display }}</td>
+                <td>{{ mailing.message }}</td>
+                <td>
+                    <ul>
+                        {% for recipient in mailing.recipient.all %}
+                        <li>{{ recipient }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
