@@ -25,6 +25,17 @@
                     {{ recipient.comment }}
                 </li>
             </ul>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:recipients' %}">
+                    Back
+                </a>
+                <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:recipient_edit' recipient.pk %}">
+                    Edit
+                </a>
+                <a href="{% url 'mailing:recipient_delete' recipient.pk %}" class="btn btn-outline-danger btn-lg btn-block">
+                    Delete
+                </a>
+            </div>
         </div>
     </div>
 </div>

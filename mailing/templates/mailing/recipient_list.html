@@ -23,15 +23,22 @@
                         <th scope="col">Email</th>
                         <th scope="col">Name</th>
                         <th scope="col">Comment</th>
+                        <!--
                         <th scope="col"></th>
+                        -->
                     </tr>
                 </thead>
                 <tbody>
                 {% for recipient in recipients %}
                     <tr>
                         <th scope="row">{{ recipient.name }}</th>
-                        <td>{{ recipient.email }}</td>
+                        <td>
+                            <a href="{% url 'mailing:recipient_detail' recipient.pk %}">
+                                {{ recipient.email }}
+                            </a>
+                        </td>
                         <td>{{ recipient.comment }}</td>
+                        <!--
                         <td>
                             <a class="btn btn-secondary" href="{% url 'mailing:recipient_edit' recipient.pk %}" role="button">
                                 Edit
@@ -40,6 +47,7 @@
                                 Delete
                             </a>
                         </td>
+                        -->
                     </tr>
                 {% endfor %}
                 </tbody>

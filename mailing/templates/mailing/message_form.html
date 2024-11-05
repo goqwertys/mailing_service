@@ -1,0 +1,18 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Message{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Message</h1>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <a class="btn btn-outline-secondary btn-lg" href="{% url 'mailing:messages' %}">
+                Back
+            </a>
+            <button type="submit" class="btn btn-outline-primary btn-lg">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
