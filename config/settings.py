@@ -45,6 +45,9 @@ INSTALLED_APPS = [
 
     'mailing',
     'users',
+
+    'phonenumber_field',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +148,8 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv('SMTP_USERNAME')
 EMAIL_HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('SMTP_USERNAME')
+
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/catalog/'
+LOGOUT_REDIRECT_URL = '/catalog/'
