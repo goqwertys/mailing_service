@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from pyexpat.errors import messages
 
 from mailing.forms import RecipientForm, MessageForm, MailingForm
@@ -137,3 +137,12 @@ def start_mailing(request, mailing_id):
     mailing = get_object_or_404(Mailing, id=mailing_id)
     send_mailing(mailing.id)
     return redirect('mailing:mailings')
+
+# Home view
+class HomeView(TemplateView):
+    template_name = 'mailing/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data( **kwargs)
+        # TODO
+        return context
