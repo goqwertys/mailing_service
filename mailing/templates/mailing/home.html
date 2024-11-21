@@ -1,7 +1,15 @@
 {% extends 'mailing/base.html' %}
-{% block title %}Confirm Delete{% endblock %}
+{% block title %}Home{% endblock %}
 {% block content %}
 <div class="container">
-    <h1 class="mt-5">Mailing Service</h1>
+    <h1 class="mt-5 text-center">Mailing Service</h1>
+    <div class="row d-flex justify-content-center align-items-center mt-3 mb-3">
+        <div class="col-4 text-center">
+            <a href="{% url 'mailing:recipients' %}" class="btn btn-primary mt-2 mb-2">Recipients</a>
+            <a href="{% url 'mailing:messages' %}" class="btn btn-primary mt-2 mb-2">Messages</a>
+            <a href="{% url 'mailing:mailings' %}" class="btn btn-primary mt-2 mb-2">Mailings</a>
+            <a href="{% url 'mailing:attempts' %}" class="btn btn-primary mt-2 mb-2">Attempts</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

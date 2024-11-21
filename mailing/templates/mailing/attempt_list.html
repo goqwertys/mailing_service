@@ -2,8 +2,11 @@
 {% block title %}Attempts{% endblock %}
 {% block content %}
 <div class="container">
+    <h3>Attempts log</h3>
     <div class="col-12 d-flex justify-content-between align-items-center mt-3 mb-3">
-        <h3>Attempts log</h3>
+        <a class="btn btn-secondary" href="{% url 'mailing:home' %}">
+            Home
+        </a>
     </div>
     <table class="table mt-3">
         <thead>
