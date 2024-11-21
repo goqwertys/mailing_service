@@ -73,6 +73,7 @@ class Mailing(models.Model):
         blank=True,
         null=True,
     )
+    recipient = models.ManyToManyField(Recipient)
 
     def __str__(self):
         return f'Mailing {self.id} - {self.status}'
