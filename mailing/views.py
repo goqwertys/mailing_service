@@ -1,45 +1,62 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from pyexpat.errors import messages
 
 from mailing.forms import RecipientForm, MessageForm, MailingForm
+from mailing.mixins import UserObjectMixin
 from mailing.models import Recipient, Message, Mailing, Attempt
 from mailing.utils import send_mailing
 
 
 # Recipient CRUD
-class RecipientListView(ListView):
+class RecipientListView(UserObjectMixin, ListView):
     model = Recipient
     template_name = 'mailing/recipient_list.html'
     context_object_name = 'recipients'
     paginate_by = 10
+    permission_required = 'mailing.view_recipient'
 
 
-class RecipientDetailView(DetailView):
+class RecipientDetailView(UserObjectMixin, DetailView):
     model = Recipient
     template_name = 'mailing/recipient_detail.html'
     context_object_name = 'recipient'
+    permission_required = 'mailing.view_recipient'
 
 
-class RecipientCreateView(CreateView):
+class RecipientCreateView(UserObjectMixin, CreateView):
     model = Recipient
     form_class = RecipientForm
     template_name = 'mailing/recipient_form.html'
     success_url = reverse_lazy('mailing:recipients')
+    permission_required = 'mailing.add_recipient'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-class RecipientUpdateView(UpdateView):
+class RecipientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Recipient
     form_class = RecipientForm
     template_name = 'mailing/recipient_form.html'
     success_url = reverse_lazy('mailing:recipients')
+    permission_required = 'mailing.change_recipient'
+
+    def get_queryset(self):
+        return Recipient.objects.filter(user=self.request.user)
 
 
-class RecipientDeleteView(DeleteView):
+class RecipientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Recipient
     template_name = 'mailing/recipient_confirm_delete.html'
     success_url = reverse_lazy('mailing:recipients')
+    permission_required = 'mailing.delete_recipient'
+
+    def get_queryset(self):
+        return Recipient.objects.filter(user=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Recipient has been deleted successfully')
@@ -47,11 +64,15 @@ class RecipientDeleteView(DeleteView):
 
 
 # Messages CRUD
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Message
     template_name = 'mailing/message_list.html'
     context_object_name = 'messages'
     paginate_by = 10
+    permission_required = 'mailing.view_message'
+
+    def get_queryset(self):
+        return Message.objects.filter(user=self.request.user)
 
 
 class MessageDetailView(DetailView):
