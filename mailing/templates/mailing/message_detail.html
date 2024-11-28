@@ -6,13 +6,30 @@
         Message details:
     </h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
+        <div class="col-6">
             <ul class="list-group">
+                {% if user != message.user %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Subject: {{ message.subject }}
+                    <p>
+                        Owner:
+                    </p>
+                    <p>
+                        {{ message.user }}
+                    </p>
+                </li>
+                {% endif %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>
+                        Subject:
+                    </p>
+                    <p>
+                        {{ message.subject }}
+                    </p>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Message:
+                    <p>
+                        Message:
+                    </p>
                     <p>
                         {{ message.body }}
                     </p>
@@ -22,12 +39,16 @@
                 <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:messages' %}">
                     Back
                 </a>
-                <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:message_edit' message.pk %}">
-                    Edit
-                </a>
-                <a class="btn btn-outline-danger btn-lg btn-block" href="{% url 'mailing:message_delete' message.pk %}">
-                    Delete
-                </a>
+                {% if recipient.user == user or perms.mailing.message_update %}
+                    <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:message_edit' message.pk %}">
+                        Edit
+                    </a>
+                {% endif %}
+                {% if recipient.user == user or perms.mailing.recipient_delete %}
+                    <a class="btn btn-outline-danger btn-lg btn-block" href="{% url 'mailing:message_delete' message.pk %}">
+                        Delete
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

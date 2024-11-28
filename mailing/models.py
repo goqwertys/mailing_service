@@ -5,9 +5,8 @@ from users.models import User
 
 
 class Recipient(models.Model):
-    """ Mailing model"""
+    """ Recipient model"""
     email = models.EmailField(
-        unique=True,
         max_length=254,
         validators=[EmailValidator(message='Enter a valid email address')],
         verbose_name='Email Address'
@@ -28,6 +27,9 @@ class Recipient(models.Model):
     class Meta:
         verbose_name = 'recipient'
         verbose_name_plural = 'recipients'
+        unique_together = ('email', 'user')
+        ordering = ['name']
+        permissions = [("can_view_other_recipient", "Can view other people's recipients")]
 
 
 class Message(models.Model):
@@ -48,9 +50,14 @@ class Message(models.Model):
     class Meta:
         verbose_name = 'message'
         verbose_name_plural = 'messages'
+        ordering = ['subject']
+        permissions = [
+            ("can_view_other_message", "Can view other people's messages")
+        ]
 
 
 class Mailing(models.Model):
+    """ Mailing model """
     start_of_sending = models.DateTimeField(blank=True, null=True)
     end_of_sending = models.DateTimeField(blank=True, null=True)
 
@@ -58,9 +65,10 @@ class Mailing(models.Model):
         ('CPL', 'Completed'),
         ('CRT', 'Created'),
         ('LCH', 'Launched'),
+        ('DSBL', 'Disabled')
     ]
     status = models.CharField(
-        max_length=3,
+        max_length=4,
         choices=STATUS_CHOICES,
         default='CRT',
         verbose_name='Mailing status'
@@ -69,7 +77,7 @@ class Mailing(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='mailings',
+        related_name='mailing',
         blank=True,
         null=True,
     )
@@ -81,17 +89,24 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'mailing'
         verbose_name_plural = 'mailings'
+        ordering = ["start_of_sending", "message"]
         permissions = [
+            ("can_view_other_mailing", "Can view other people's mailings"),
+            ("start_mailing", "Can start mailing"),
             ("disable_mailing", "Can disable mailing"),
         ]
 
 
 class Attempt(models.Model):
-    dt = models.DateTimeField()
+    dt = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Attempt daytime'
+    )
     STATUS_CHOICES = [
         ('CM', 'Completed'),
         ('CR', 'Created'),
         ('LN', 'Launched'),
+        ('FL', 'Failed'),
     ]
 
     status = models.CharField(
@@ -99,6 +114,14 @@ class Attempt(models.Model):
         choices=STATUS_CHOICES,
         default='CRT',
         verbose_name='Mailing attempt'
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='attempts',
+        blank=True,
+        null=True,
     )
 
     response = models.TextField()
@@ -110,3 +133,4 @@ class Attempt(models.Model):
     class Meta:
         verbose_name = 'attempt'
         verbose_name_plural = 'attempts'
+        ordering = ['dt']

@@ -1,5 +1,5 @@
 {% extends 'mailing/base.html' %}
-{% block title %}Mailings{% endblock %}
+{% block title %}Mailings for {{user.email}}{% endblock %}
 {% block content %}
 <div class="container">
     <h3>Mailings</h3>
@@ -14,7 +14,9 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th>ID</th>
+                {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                    <th>Owner:</th>
+                {% endif %}
                 <th>Start of sending</th>
                 <th>End of sending</th>
                 <th>Status</th>
@@ -26,15 +28,29 @@
         <tbody>
             {% for mailing in mailings %}
             <tr>
-                <td>{{ mailing.id }}</td>
+                {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                    <th>
+                        <a href="{% url 'users:moderator_user_detail' mailing.user.pk %}">
+                            {{ mailing.user }}
+                        </a>
+                    </th>
+                {% endif %}
                 <td>{{ mailing.start_of_sending }}</td>
                 <td>{{ mailing.end_of_sending }}</td>
                 <td>{{ mailing.get_status_display }}</td>
-                <td>{{ mailing.message }}</td>
+                <td>
+                    <a href="{% url 'mailing:message_detail' mailing.message.pk %}">
+                        {{ mailing.message }}
+                    </a>
+                </td>
                 <td>
                     <ul>
                         {% for recipient in mailing.recipient.all %}
-                        <li>{{ recipient }}</li>
+                        <li>
+                            <a href="{% url 'mailing:recipient_detail' recipient.pk %}">
+                                {{ recipient }}
+                            </a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </td>

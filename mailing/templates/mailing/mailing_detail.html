@@ -7,7 +7,8 @@
     <p><strong>Start of sending:</strong> {{ mailing.start_of_sending }}</p>
     <p><strong>End of sending:</strong> {{ mailing.end_of_sending }}</p>
     <p><strong>Status:</strong> {{ mailing.get_status_display }}</p>
-    <p><strong>Message:</strong> {{ mailing.message }}</p>
+    <p><strong>Message:</strong> {{ mailing.message }}...</p>
+    <p><strong>User ID:</strong> {{ mailing.user }}</p>
     <p><strong>Recipients:</strong></p>
     <ul>
         {% for recipient in mailing.recipient.all %}
@@ -15,8 +16,10 @@
         {% endfor %}
     </ul>
     <a class="btn btn-secondary" href="{% url 'mailing:mailings' %}">Back</a>
-    <a class="btn btn-secondary" href="{% url 'mailing:mailing_update' mailing.pk %}">Edit</a>
-    <a class="btn btn-primary" href="{% url 'mailing:start_mailing' mailing.id %}">Send</a>
+    {% if mailing.status not in 'CPL DSBL' %}
+        <a class="btn btn-secondary" href="{% url 'mailing:mailing_update' mailing.pk %}">Edit</a>
+        <a class="btn btn-primary" href="{% url 'mailing:start_mailing' mailing.id %}">Send</a>
+    {% endif %}
     <a class="btn btn-danger" href="{% url 'mailing:mailing_delete' mailing.pk %}">Delete</a>
 </div>
 {% endblock %}

@@ -17,24 +17,28 @@
                     </p>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Email:
-                    {{ recipient.email }}
+                    <p>Email:</p>
+                    <p>{{ recipient.email }}</p>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Comment:
-                    {{ recipient.comment }}
+                    <p>Comment:</p>
+                    <p>{{ recipient.comment }}</p>
                 </li>
             </ul>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:recipients' %}">
                     Back
                 </a>
-                <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:recipient_edit' recipient.pk %}">
-                    Edit
-                </a>
-                <a href="{% url 'mailing:recipient_delete' recipient.pk %}" class="btn btn-outline-danger btn-lg btn-block">
-                    Delete
-                </a>
+                {% if recipient.user == user or perms.mailing.recipient_update %}
+                    <a class="btn btn-outline-secondary btn-lg btn-block" href="{% url 'mailing:recipient_edit' recipient.pk %}">
+                        Edit
+                    </a>
+                {% endif %}
+                {% if recipient.user == user or perms.mailing.recipient_delete %}
+                    <a href="{% url 'mailing:recipient_delete' recipient.pk %}" class="btn btn-outline-danger btn-lg btn-block">
+                        Delete
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

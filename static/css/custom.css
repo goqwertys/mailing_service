@@ -131,7 +131,6 @@
     overflow: hidden;
     width: 100px;
     height: 100px;
-    border: 2px solid red; /* Отладочный стиль */
 }
 
 .avatar {

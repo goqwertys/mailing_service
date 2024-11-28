@@ -154,5 +154,5 @@ DEFAULT_FROM_EMAIL = os.getenv('SMTP_USERNAME')
 
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = '/mailing/recipients/'
-LOGOUT_REDIRECT_URL = '/catalog/recipients/'
+LOGIN_REDIRECT_URL = '/mailing/'
+LOGOUT_REDIRECT_URL = '/mailing/'

@@ -1,8 +1,12 @@
+from tkinter.font import names
+
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from users.apps import UsersConfig
-from users.views import UserCreationView, email_verification, UserProfileUpdateView
+from users.views import UserCreationView, email_verification, UserProfileUpdateView, UserDetailView, \
+    block_user, UserListView, unblock_user, \
+    ModeratorRecipientListView, ModeratorMailingListView, disable_mailing
 
 app_name = UsersConfig.name
 
@@ -43,5 +47,14 @@ urlpatterns = [
             template_name='users/password_reset_complete.html'
         ),
         name='password_reset_complete'
-    )
+    ),
+
+    # # MODERATOR FEATURES
+    path('moderator/users/', UserListView.as_view(), name='moderator_user_list'),
+    path('moderator/users/<int:pk>/', UserDetailView.as_view(), name='moderator_user_detail'),
+    path('moderator/recipients/', ModeratorRecipientListView.as_view(), name='moderator_recipient_list'),
+    path('moderator/mailings/', ModeratorMailingListView.as_view(), name='moderator_mailing_list'),
+    path('moderator/users/<int:user_id>/block/', block_user, name='moderator_block_user'),
+    path('moderator/users/<int:user_id>/unblock', unblock_user, name='moderator_unblock_user'),
+    path('moderator/mailings/<int:mailing_id>/disable', disable_mailing, name='moderator_disable_mailing'),
 ]

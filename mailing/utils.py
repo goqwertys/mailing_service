@@ -3,8 +3,12 @@ from django.utils import timezone
 
 from .models import Mailing, Attempt
 
-def send_mailing(mailing_id):
+def send_mailing(mailing_id, user):
     mailing = Mailing.objects.get(id=mailing_id)
+
+    if mailing.status in ('CPL', 'DSBL'):
+        raise ValueError('This mailing cannot be sent.')
+
     recipients = mailing.recipient.all()
     message = mailing.message
 
@@ -23,14 +27,15 @@ def send_mailing(mailing_id):
             status = 'CM'
             response = 'Email send successfully'
         except Exception as e:
-            status = 'CR'
+            status = 'FL'
             response = str(e)
 
         attempt = Attempt(
             dt=timezone.now(),
             status=status,
             response=response,
-            mailing=mailing
+            mailing=mailing,
+            user=user
         )
         attempt.save()
 

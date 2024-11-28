@@ -14,7 +14,23 @@
                 <a href="{% url 'users:login' %}" class="btn btn-primary mt-2 mb-2">Login</a>
                 <a href="{% url 'users:register' %}" class="btn btn-primary mt-2 mb-2">Sign Up</a>
             {% endif %}
+            {% if user.is_superuser or perms.users.can_block_user %}
+                <a href="{% url 'users:moderator_user_list' %}" class="btn btn-primary mt-2 mb-2">Users</a>
+            {% endif %}
         </div>
     </div>
+        <div class="col-4">
+            <div class="card width: 18rem;">
+                <div class="card-header">
+                Statistics
+            </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item">Mailings count: {{ all_mailings_count }}</li>
+                <li class="list-group-item">Successful mailing attempts: {{ successful_attempts }}</li>
+                <li class="list-group-item">Unsuccessful mailing attempts: {{ unsuccessful_attempts }}</li>
+                <li class="list-group-item">Unique recipients: {{ unique_recipients }}</li>
+            </ul>
+            </div>
+        </div>
 </div>
 {% endblock %}

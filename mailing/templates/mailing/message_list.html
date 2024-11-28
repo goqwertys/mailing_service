@@ -1,5 +1,5 @@
 {% extends 'mailing/base.html' %}
-{% block title %}Messages{% endblock %}
+{% block title %}Message list{% endblock %}
 {% block content %}
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
@@ -19,7 +19,9 @@
                     <tr>
                         <th scope="col">Subject</th>
                         <th scope="col">Message</th>
-
+                        {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                        <th>Owner:</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -31,6 +33,13 @@
                                 {{ message.body|truncatechars:50 }}
                             </a>
                         </td>
+                        {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                            <th>
+                                <a href="{% url 'users:moderator_user_detail' message.user.pk %}">
+                                    {{ message.user }}
+                                </a>
+                            </th>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

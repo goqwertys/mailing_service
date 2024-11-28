@@ -11,7 +11,9 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th>ID:</th>
+                {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                    <th>Owner:</th>
+                {% endif %}
                 <th>Date time:</th>
                 <th>Status:</th>
                 <th>Response:</th>
@@ -22,7 +24,9 @@
         <tbody>
             {% for attempt in attempts %}
             <tr>
-                <td>{{ attempt.id }}</td>
+                {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                    <th>{{ attempt.user }}:</th>
+                {% endif %}
                 <td>{{ attempt.dt }}</td>
                 <td>{{ attempt.status }}</td>
                 <td>{{ attempt.response }}</td>
