@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -32,7 +32,11 @@ class RecipientDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        if not self.request.user.is_superuser and not self.request.user.has_perm('mailing.can_view_other_recipient') and obj.user != self.request.user:
+        if (
+                not self.request.user.is_superuser and
+                not self.request.user.has_perm('mailing.can_view_other_recipient') and
+                obj.user != self.request.user
+        ):
             raise PermissionDenied('You do not have permission to view this recipient.')
         return obj
 
@@ -97,7 +101,11 @@ class MessageDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        if not self.request.user.is_superuser and not self.request.user.has_perm('mailing.can_view_other_message') and obj.user != self.request.user:
+        if (
+                not self.request.user.is_superuser and
+                not self.request.user.has_perm('mailing.can_view_other_message') and
+                obj.user != self.request.user
+        ):
             raise PermissionDenied('You do not have permission to view this message.')
         return obj
 
@@ -159,7 +167,11 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
-        if not self.request.user.is_superuser and not self.request.user.has_perm('mailing.can_view_other_mailing') and obj.user != self.request.user:
+        if (
+                not self.request.user.is_superuser and
+                not self.request.user.has_perm('mailing.can_view_other_mailing') and
+                obj.user != self.request.user
+        ):
             raise PermissionDenied('You do not have permission to view this mailing.')
         return obj
 

@@ -1,5 +1,3 @@
-from tkinter.font import names
-
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views

@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from .models import Mailing, Attempt
 
+
 def send_mailing(mailing_id, user):
     mailing = Mailing.objects.get(id=mailing_id)
 

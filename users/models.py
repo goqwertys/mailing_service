@@ -12,9 +12,9 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True, verbose_name='email')
     phone_number = PhoneNumberField(
-        verbose_name = 'Phone Number',
-        null =True,
-        blank = True,
+        verbose_name='Phone Number',
+        null=True,
+        blank=True,
         help_text='Enter your phone number'
     )
     avatar = models.ImageField(

@@ -30,7 +30,6 @@ def get_messages_from_cache():
     return messages
 
 
-
 def get_mailings_from_cache():
     """ Gets mailing data from cache """
     if not CACHE_ENABLED:
