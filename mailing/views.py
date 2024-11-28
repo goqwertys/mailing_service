@@ -8,6 +8,7 @@ from django.contrib import messages
 
 from mailing.forms import RecipientForm, MessageForm, MailingForm
 from mailing.models import Recipient, Message, Mailing, Attempt
+from mailing.services import get_recipients_from_cache, get_mailings_from_cache, get_messages_from_cache
 from mailing.utils import send_mailing
 
 
@@ -20,7 +21,7 @@ class RecipientListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.has_perm('mailing.can_view_other_recipient'):
-            return Recipient.objects.all()
+            return get_recipients_from_cache()
         return Recipient.objects.filter(user=self.request.user)
 
 
@@ -85,7 +86,7 @@ class MessageListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.has_perm('mailing.can_view_other_message'):
-            return Message.objects.all()
+            return get_messages_from_cache()
         return Message.objects.filter(user=self.request.user)
 
 
@@ -147,7 +148,7 @@ class MailingListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.has_perm('mailing.can_view_other_mailing'):
-            return Mailing.objects.all()
+            return get_mailings_from_cache()
         return Mailing.objects.filter(user=self.request.user)
 
 

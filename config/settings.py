@@ -156,3 +156,12 @@ DEFAULT_FROM_EMAIL = os.getenv('SMTP_USERNAME')
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/mailing/'
 LOGOUT_REDIRECT_URL = '/mailing/'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+    }
+}
+
+CACHE_ENABLED = True
