@@ -1,0 +1,66 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Recipient list{% endblock %}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <h3>Recipients</h3>
+        <div class="col-12 d-flex justify-content-between align-items-center mt-3 mb-3">
+            <a class="btn btn-secondary" href="{% url 'mailing:home' %}">
+                Home
+            </a>
+            <a class="btn btn-primary" href="{% url 'mailing:recipient_create' %}" role="button">
+                Add New
+            </a>
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <!--
+              {% for product in products %}
+                  {% include 'catalog/includes/product_card.html' %}
+              {% endfor %}
+            -->
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Comment</th>
+                        {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                        <th>Owner:</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                {% if recipients %}
+                    {% for recipient in recipients %}
+                        <tr>
+                            <th scope="row">{{ recipient.name }}</th>
+                            <td>
+                                <a href="{% url 'mailing:recipient_detail' recipient.pk %}">
+                                    {{ recipient.email }}
+                                </a>
+                            </td>
+                            <td>{{ recipient.comment }}</td>
+                            {% if user.is_superuser or perms.mailing.can_view_other_recipient %}
+                                <th>
+                                    <a href="{% url 'users:moderator_user_detail' recipient.user.pk %}">
+                                        {{ recipient.user }}
+                                    </a>
+                                </th>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">No recipients</td>
+                    </tr>
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+        {% include 'mailing/includes/pagination.html' %}
+    </div>
+</div>
+{% endblock %}

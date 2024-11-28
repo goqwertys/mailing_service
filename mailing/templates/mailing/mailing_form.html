@@ -1,0 +1,19 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Mailing Form{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Mailing Form</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group mt-3">
+            {{ form.message.label_tag }}
+            {{ form.message }}
+        </div>
+        <div class="form-group mt-3">
+            {{ form.recipient.label_tag }}
+            {{ form.recipient }}
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+    </form>
+</div>
+{% endblock %}

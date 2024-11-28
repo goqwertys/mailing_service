@@ -1,0 +1,13 @@
+{% extends 'mailing/base.html' %}
+{% block title %}Attempt detail {{ attempt.id }}{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Attempt detail</h1>
+    <p><strong>ID:</strong> {{ attempt.id }}</p>
+    <p><strong>Datetime:</strong> {{ attempt.dt }}</p>
+    <p><strong>Status:</strong> {{ attempt.get_status_display }}</p>
+    <p><strong>Response:</strong> {{ attempt.response }}</p>
+    <p><strong>Mailing ID:</strong> {{ attempt.mailing.id }}</p>
+    <a class="btn btn-secondary" href="{% url 'mailing:attempts' %}">Back</a>
+</div>
+{% endblock %}

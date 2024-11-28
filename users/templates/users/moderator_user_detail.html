@@ -1,0 +1,88 @@
+{% extends 'mailing/base.html' %}
+{% block title %}User detail: {{ user.email }}{% endblock %}
+{% block content %}
+<div class="container">
+    <h3 class="mt-3 mb-3">
+        User {{ user.email }}:
+    </h3>
+    <div class="col-12 d-flex justify-content-between align-items-center mt-3 mb-3">
+        <a class="btn btn-secondary" href="{% url 'mailing:home' %}">
+            Home
+        </a>
+    </div>
+    <div class="row row-cols-3 row-cols-sm-3 row-cols-md-3 g-3">
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>ID:</p>
+                    <p>{{ user.id }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Email:</p>
+                    <p>{{ user.email }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Phone number:</p>
+                    <p>{{ user.phone_number }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Country:</p>
+                    <p>{{ user.country }}</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Status:</p>
+                    <p>
+                        {% if user.is_active %}
+                            Active
+                        {% else %}
+                            Blocked
+                        {% endif %}
+                    </p>
+                </li>
+                {% if user.is_superuser or perms.can_block_user %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Recipients</p>
+                    <p>
+                        {{ recipients_count }}
+                    </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Messages</p>
+                    <p>
+                        {{ messages_count }}
+                    </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Mailings</p>
+                    <p>
+                        {{ mailings_count }}
+                    </p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p>Attempts</p>
+                    <p>
+                        ...
+                    </p>
+                </li>
+                {% endif %}
+            </ul>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                {% if user.is_superuser or perms.block_user%}
+                    {% if user.is_active %}
+                        <a class="btn btn-danger btn-block" href="{% url 'users:moderator_block_user' user.pk %}">
+                            Block
+                        </a>
+                    {% else %}
+                        <a class="btn btn-success btn-block" href="{% url 'users:moderator_unblock_user' user.pk %}">
+                            Unblock
+                        </a>
+                    {% endif %}
+                {% endif %}
+                <a class="btn btn-outline-secondary btn-block" href="{% url 'users:moderator_user_list' %}">
+                    Back to User List
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
